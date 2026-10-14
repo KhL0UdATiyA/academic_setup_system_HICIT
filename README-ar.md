@@ -23,28 +23,42 @@
 
 ```
 hicit-admin/
-├── index.html                ← الهيكل الرئيسي: بيحمّل كل الملفات التانية بالترتيب
-├── css/styles.css            ← تنسيقات خاصة (الخط، الخلفية، السكرول بار، السايدبار)
+├── index.html                 main file: loads all the other files in order
+├── css/styles.css             custom styles (font, background, scrollbar, sidebar)
 ├── js/
-│   ├── tailwind-config.js    ← ألوان وخطوط المشروع (navy, brand)
-│   ├── 00-react-setup.js     ← سطر واحد: بيجهّز useState/useEffect
-│   ├── data/                 ← الداتا التجريبية (أسماء، طلاب، مقررات...)
+│   ├── tailwind-config.js     project colors and fonts (navy, brand)
+│   ├── 00-react-setup.js      one line: prepares useState / useEffect
+│   ├── data/                  demo data (names, students, courses...)
 │   │   ├── initial-data.js
 │   │   ├── permissions-and-roles.js
 │   │   └── demo-data.js
-│   ├── utils/academic-rules.js   ← دوال الحسابات (الترقية، الدرجات، النجاح)
-│   ├── config/navigation.js      ← القائمة الجانبية والتابات والصلاحيات
-│   ├── App.jsx                   ← الإطار العام + ربط كل الأقسام ببعض
-│   ├── main.js                   ← آخر سطرين: بيشغّل التطبيق
-│   └── components/               ← الشاشات، مقسّمة بنفس أقسام القائمة الجانبية
-│       ├── dashboard/            ← لوحة التحكم + نافذة "تعريف المعهد"
-│       ├── academic-setup/       ← الإعداد الأكاديمي
-│       ├── system-members/       ← أعضاء النظام
-│       ├── students-cohorts/     ← الطلاب والدفعات
-│       ├── term-operations/      ← عمليات الفصل الدراسي
-│       └── control-grading/      ← الكنترول والنتائج
-└── merge.py                  ← أداة تدمج كل حاجة في ملف واحد (شوفي القسم 7)
+│   ├── utils/academic-rules.js    calculations (promotion, grades, pass mark)
+│   ├── config/navigation.js       sidebar, tabs, and permissions
+│   ├── App.jsx                    the app shell + connects all sections
+│   ├── main.js                    last lines: starts the app
+│   └── components/                the screens, grouped like the sidebar
+│       ├── dashboard/
+│       ├── academic-setup/
+│       ├── system-members/
+│       ├── students-cohorts/
+│       ├── term-operations/
+│       └── control-grading/
+└── merge.py                   merges everything into one file (see section 7)
 ```
+
+الشرح بالعربي لكل جزء:
+
+- `index.html`: الملف الرئيسي، بيحمّل كل الملفات التانية بالترتيب.
+- `css/styles.css`: تنسيقات خاصة (الخط، الخلفية، السكرول بار، السايدبار).
+- `js/tailwind-config.js`: ألوان وخطوط المشروع (`navy` و`brand`).
+- `js/00-react-setup.js`: سطر واحد بيجهّز `useState` و`useEffect`.
+- `js/data/`: الداتا التجريبية (أسماء، طلاب، مقررات...).
+- `js/utils/academic-rules.js`: دوال الحسابات (الترقية، الدرجات، النجاح).
+- `js/config/navigation.js`: القائمة الجانبية والتابات والصلاحيات.
+- `js/App.jsx`: الإطار العام، وبيربط كل الأقسام ببعض.
+- `js/main.js`: آخر سطرين، بيشغّلوا التطبيق.
+- `js/components/`: الشاشات، مقسّمة بنفس أقسام القائمة الجانبية.
+- `merge.py`: أداة بتدمج كل حاجة في ملف واحد (شوفي القسم 7).
 
 ### كل ملف في components فيه شاشة واحدة
 
@@ -94,24 +108,28 @@ hicit-admin/
 ده ملف `BulkExcelImportModal.jsx` مختصر، وفوق كل جزء شرحه:
 
 ```jsx
-// (1) ده اسم الشاشة. الأقواس { } بتاخد "المعطيات" (props) من الـ App
+// (1) The screen's name. The braces { } receive "props" from App
 function BulkExcelImportModal({ onClose, showToast }) {
 
-    // (2) حالة (state): متغير لو اتغيّر الشاشة بتتحدّث لوحدها
-    //     isUploading = القيمة الحالية، setIsUploading = دالة تغيّرها
+    // (2) State: a variable. When it changes, the screen updates by itself.
+    //     isUploading = current value, setIsUploading = function to change it
     const [isUploading, setIsUploading] = useState(false);
 
-    // (3) دالة بتتنفذ لما المستخدم يضغط
-    const handleSimulateImport = () => { ... };
+    // (3) A function that runs when the user clicks
+    const handleSimulateImport = () => { /* ... */ };
 
-    // (4) اللي بيظهر على الشاشة. ده JSX: شبه HTML بس جوه جافاسكربت
+    // (4) What appears on screen. This is JSX: like HTML, but inside JavaScript
     return (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 ...">   {/* خلفية غامقة */}
-            <div className="bg-white rounded-3xl w-full max-w-md ..."> {/* النافذة البيضا */}
-                <span>رفع شيت إكسل دفعة كاملة</span>               {/* نص عادي: عدّليه */}
-                <button onClick={onClose}>...</button>             {/* onClick = لما يضغط */}
+        <div className="fixed inset-0 z-50 bg-slate-900/60">
+            {/* dark backdrop */}
+            <div className="bg-white rounded-3xl w-full max-w-md">
+                {/* the white window */}
+                <span>Bulk Excel Import</span>
+                {/* plain text: you can edit it */}
+                <button onClick={onClose}>...</button>
+                {/* onClick = when clicked */}
                 <button disabled={isUploading}>
-                    {isUploading ? <span>جاري المعالجة...</span> : <span>بدء رفع الشيت</span>}
+                    {isUploading ? <span>Processing...</span> : <span>Start</span>}
                 </button>
             </div>
         </div>
@@ -119,14 +137,48 @@ function BulkExcelImportModal({ onClose, showToast }) {
 }
 ```
 
+الشرح بالعربي لكل رقم:
+
+1. **اسم الشاشة:** الأقواس `{ }` بتاخد "المعطيات" (props) من الـ `App`.
+2. **الحالة (state):** متغير لو اتغيّر الشاشة بتتحدّث لوحدها. `isUploading` هي القيمة الحالية، و`setIsUploading` دالة بتغيّرها.
+3. **دالة** بتتنفذ لما المستخدم يضغط.
+4. **اللي بيظهر على الشاشة.** ده JSX: شبه HTML بس جوه جافاسكربت.
+   - `onClick` معناها: لما يضغط.
+   - `className` فيه كلمات Tailwind للتنسيق.
+   - النص العادي (زي `Bulk Excel Import`) تعدّلي فيه براحتك.
+   - الأقواس `{ }` جوه JSX معناها إن اللي جواها كود، مش نص.
+
 ### الفرق بين JSX و HTML (أهم 6 نقاط)
 
-1. بنكتب **`className`** مش `class`.
-2. أي حاجة جوه **`{ }`** هي كود جافاسكربت، مش نص. مثلاً `{student.nameAr}` بيطبع اسم الطالب.
-3. **`{condition && <div/>}`** معناها: اعرض الـ div لو الشرط صح.
-4. **`{condition ? <A/> : <B/>}`** معناها: اعرض A لو صح، وإلا اعرض B.
-5. **`{list.map(x => <tr key={x.id}>...</tr>)}`** معناها: كرّر العنصر ده لكل عنصر في القائمة (ده بيعمل صفوف الجداول).
-6. كل عنصر لازم يتقفل: `<input />` و `<div></div>`.
+الأمثلة هنا في بلوك كود واحد (بالإنجليزي، عشان العلامات متتعكسش)، وشرح كل نقطة تحته بنفس الرقم:
+
+```jsx
+// 1. className, not class
+<div className="p-4">...</div>
+
+// 2. curly braces = JavaScript code
+<span>{student.nameAr}</span>
+
+// 3. show only if the condition is true
+{isOpen && <Modal />}
+
+// 4. choose between two things
+{isOpen ? <Modal /> : <Button />}
+
+// 5. repeat for every item in a list
+{students.map(s => <tr key={s.id}>...</tr>)}
+
+// 6. every element must be closed
+<input />
+<div></div>
+```
+
+1. بنكتب `className` مش `class`.
+2. أي حاجة جوه الأقواس المعقوصة `{ }` هي كود جافاسكربت مش نص. مثلاً `student.nameAr` بيطبع اسم الطالب.
+3. شرط بـ `&&`: اعرض العنصر لو الشرط صح.
+4. شرط بعلامة `?`: اعرض الأول لو صح، وإلا اعرض التاني.
+5. `map`: كرّر العنصر لكل عنصر في القائمة (ده بيعمل صفوف الجداول).
+6. كل عنصر لازم يتقفل: إما بتاج إغلاق منفصل، أو بعلامة الإغلاق الذاتي زي في المثال.
 
 > **قاعدة التعديل الآمن:** النصوص العربية الظاهرة والـ `className` تعدّلي فيهم براحتك. أي حاجة جوه `{ }` أو اسم متغير أو اسم دالة، اتأكدي إنك فاهماها قبل ما تلمسيها.
 
@@ -163,7 +215,13 @@ function BulkExcelImportModal({ onClose, showToast }) {
 
 ## 6) الأيقونات
 
-الأيقونة بتتكتب كده: `<i data-lucide="x" className="w-5 h-5"></i>`. اسم الأيقونة جوه `data-lucide`. الأسماء متاحة على **lucide.dev/icons**. غيّري الاسم بس والأيقونة هتتغير. الحجم من `w-5 h-5`.
+الأيقونة بتتكتب بالشكل ده:
+
+```html
+<i data-lucide="x" className="w-5 h-5"></i>
+```
+
+اسم الأيقونة جوه `data-lucide`. الأسماء متاحة على **lucide.dev/icons**. غيّري الاسم بس والأيقونة هتتغير. الحجم من `w-5 h-5`.
 
 ---
 
@@ -189,7 +247,13 @@ function BulkExcelImportModal({ onClose, showToast }) {
 
 ## 8) لو ضفتي ملف جديد
 
-لازم تسجّليه في `index.html` بسطر `<script type="text/babel" src="...">` **قبل** سطر `js/App.jsx`. ولو عملتي Component جديد، لازم تستدعيه في `App.jsx` مكان ما عايزاه يظهر. (مثال: دوّري على `RegulationsDirectoryView` في `App.jsx` تلاقي إزاي بيتنادى.)
+لازم تسجّليه في `index.html` بسطر بالشكل ده، **قبل** سطر `js/App.jsx`:
+
+```html
+<script type="text/babel" src="js/components/academic-setup/MyNewView.jsx"></script>
+```
+
+ولو عملتي Component جديد، لازم تستدعيه في `App.jsx` مكان ما عايزاه يظهر. (مثال: دوّري على `RegulationsDirectoryView` في `App.jsx` تلاقي إزاي بيتنادى.)
 
 ---
 
