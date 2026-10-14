@@ -94,6 +94,6 @@ The project is hosted on **GitHub Pages**, served from the `main` branch root. A
 
 ## Notes
 
-- Designed for desktop. The layout does not yet include responsive (mobile) breakpoints.
+- Designed primarily for desktop. Many forms and grids collapse to fewer columns on narrow screens (Tailwind `md:` breakpoints), but the sidebar has a fixed width and there are no `sm:` breakpoints, so the mobile experience has not been designed or tested.
 - There is no data persistence, authentication, or API. The role switcher is a UI simulation.
 - See [`README-ar.md`](README-ar.md) for a detailed Arabic guide to the files and how to edit them.
